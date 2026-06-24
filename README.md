@@ -1,5 +1,7 @@
 # 🎬 Video Player
 
+### View: [video-playz.netlify.app/](https://video-playz.netlify.app/)
+
 A custom, fully featured **YouTube Video Player** built with **React 19**, **Vite**, and **ReactPlayer**. Provides complete playback controls, a seek bar with fill animation, volume management, playback speed selection, and a fullscreen mode that automatically rotates to landscape on mobile devices — just like a native mobile video player.
 
 ---

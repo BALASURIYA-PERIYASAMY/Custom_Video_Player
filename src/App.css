@@ -1,0 +1,516 @@
+/* ============================================================
+   SPATIAL VIDEO PLAYER  —  App.css
+   Premium glassmorphism / spatial UI
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100dvh;
+  font-family: 'Inter', system-ui, -apple-system, 'SF Pro Display', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Deep spatial background ── */
+.vp-root {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(100, 60, 255, 0.18), transparent),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0, 200, 255, 0.12), transparent),
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255, 30, 90, 0.06), transparent),
+    linear-gradient(160deg, #05050d 0%, #0a0a1a 50%, #060612 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Animated decorative rings ── */
+.vp-bg-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  animation: ring-pulse 8s ease-in-out infinite;
+}
+
+.r1 {
+  width: 700px;
+  height: 700px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 0s;
+}
+
+.r2 {
+  width: 1000px;
+  height: 1000px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 2s;
+}
+
+.r3 {
+  width: 1400px;
+  height: 1400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 4s;
+}
+
+@keyframes ring-pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+}
+
+/* ── Floating glass card ── */
+.vp-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 900px;
+
+  /* Glassmorphism */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+
+  /* Floating shadow + glow */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 40px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(100, 60, 255, 0.08);
+
+  transition: box-shadow 0.4s ease;
+}
+
+.vp-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 50px 100px rgba(0, 0, 0, 0.7),
+    0 0 80px rgba(100, 60, 255, 0.14);
+}
+
+/* ── Video screen ── */
+.vp-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.vp-screen iframe,
+.vp-screen video {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Centre play/pause icon overlay ── */
+.vp-tap-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.vp-tap-icon--visible {
+  opacity: 1;
+}
+
+.vp-tap-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: pop-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Controls panel — frosted glass ── */
+.vp-controls {
+  background: linear-gradient(180deg,
+      rgba(10, 8, 24, 0.6) 0%,
+      rgba(8, 6, 20, 0.92) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 12px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.vp-controls--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+}
+
+/* ── Seek bar ── */
+.vp-seek-wrap {
+  width: 100%;
+  padding: 4px 0;
+}
+
+.vp-seek {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(to right,
+      #7c4dff var(--pct, 0%),
+      rgba(255, 255, 255, 0.15) var(--pct, 0%));
+  transition: height 0.15s ease;
+}
+
+.vp-seek:hover,
+.vp-seek:focus {
+  height: 6px;
+}
+
+.vp-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(124, 77, 255, 0.8), 0 0 16px rgba(124, 77, 255, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.vp-seek:hover::-webkit-slider-thumb,
+.vp-seek:focus::-webkit-slider-thumb {
+  transform: scale(1.3);
+}
+
+.vp-seek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ── Button row ── */
+.vp-btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vp-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Base glass button ── */
+.vp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s ease, border-color 0.2s ease,
+    transform 0.12s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.vp-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.vp-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* ── Skip buttons with label ── */
+.vp-skip-btn {
+  width: auto;
+  padding: 0 12px;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.vp-skip-label {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ── Big play button — glowing purple ── */
+.vp-play-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c4dff, #5c2de0);
+  border: 1.5px solid rgba(124, 77, 255, 0.5);
+  color: #fff;
+  box-shadow:
+    0 0 20px rgba(124, 77, 255, 0.5),
+    0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.vp-play-btn:hover {
+  background: linear-gradient(135deg, #9060ff, #7040f0);
+  box-shadow:
+    0 0 32px rgba(124, 77, 255, 0.7),
+    0 12px 32px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* ── Fullscreen button ── */
+.vp-fs-btn {
+  background: rgba(124, 77, 255, 0.12);
+  border-color: rgba(124, 77, 255, 0.3);
+}
+
+.vp-fs-btn:hover {
+  background: rgba(124, 77, 255, 0.25);
+  border-color: rgba(124, 77, 255, 0.5);
+}
+
+/* ── Time display ── */
+.vp-time {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vp-time-sep {
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 2px;
+}
+
+/* ── Speed selector ── */
+.vp-speed {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 6px 8px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.vp-speed:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.vp-speed option {
+  background: #12101e;
+  color: #fff;
+}
+
+/* ── Volume range slider ── */
+.vp-vol-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  outline: none;
+  transition: width 0.2s ease;
+}
+
+.vp-vol-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(124, 77, 255, 0.6);
+}
+
+.vp-vol-range::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ── Fullscreen state ── */
+.vp-root.vp-fullscreen {
+  padding: 0;
+  min-height: 100dvh;
+  align-items: stretch;
+}
+
+.vp-root.vp-fullscreen .vp-card {
+  max-width: 100%;
+  border-radius: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.vp-root.vp-fullscreen .vp-screen {
+  flex: 1;
+  aspect-ratio: unset;
+}
+
+.vp-root.vp-fullscreen .vp-controls {
+  flex-shrink: 0;
+}
+
+/* ── Responsive — mobile ── */
+@media (max-width: 600px) {
+  .vp-root {
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .vp-card {
+    border-radius: 0;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vp-screen {
+    flex-shrink: 0;
+  }
+
+  .vp-btn-row {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .vp-left {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .vp-center {
+    order: 1;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .vp-right {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .vp-vol-range {
+    width: 100px;
+  }
+
+  .vp-play-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .vp-bg-rings {
+    display: none;
+  }
+}
+
+/* ── Fullscreen landscape (mobile) ── */
+@media (orientation: landscape) and (max-height: 500px) {
+  .vp-controls {
+    padding: 8px 20px 10px;
+    gap: 6px;
+  }
+
+  .vp-play-btn {
+    width: 44px;
+    height: 44px;
+  }
+}

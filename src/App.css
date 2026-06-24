@@ -24,8 +24,10 @@ body {
 .vp-root {
   min-height: 100dvh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 24px;
   padding: 2rem 1rem;
   background:
     radial-gradient(ellipse 80% 60% at 20% 10%, rgba(100, 60, 255, 0.18), transparent),
@@ -426,6 +428,7 @@ body {
   padding: 0;
   min-height: 100dvh;
   align-items: stretch;
+  gap: 0;
 }
 
 .vp-root.vp-fullscreen .vp-card {
@@ -512,5 +515,123 @@ body {
   .vp-play-btn {
     width: 44px;
     height: 44px;
+  }
+}
+
+/* ============================================================
+   URL INPUT BAR STYLING
+   ============================================================ */
+
+.vp-url-bar {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(100, 60, 255, 0.06);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.vp-url-bar:hover {
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 25px 45px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(100, 60, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.vp-url-input-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.vp-url-icon {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.vp-url-input {
+  width: 100%;
+  padding: 10px 12px 10px 38px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.vp-url-input:focus {
+  border-color: rgba(124, 77, 255, 0.6);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 12px rgba(124, 77, 255, 0.2);
+}
+
+.vp-url-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  height: 38px;
+  background: linear-gradient(135deg, #7c4dff, #5c2de0);
+  border: 1px solid rgba(124, 77, 255, 0.4);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.vp-url-btn:hover {
+  background: linear-gradient(135deg, #9060ff, #7040f0);
+  box-shadow: 0 0 16px rgba(124, 77, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.vp-url-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+@media (max-width: 600px) {
+  .vp-url-bar {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  
+  .vp-url-input {
+    font-size: 13px;
+    padding: 8px 10px 8px 34px;
+    border-radius: 10px;
+  }
+  
+  .vp-url-icon {
+    left: 10px;
+  }
+  
+  .vp-url-btn {
+    padding: 0 12px;
+    height: 34px;
+    font-size: 12px;
+    border-radius: 10px;
   }
 }

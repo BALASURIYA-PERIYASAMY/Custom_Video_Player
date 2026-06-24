@@ -42,7 +42,17 @@ export default function Video() {
   const [isFS, setIsFS] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [showCtrls, setShowCtrls] = useState(true);
+  const [videoUrl, setVideoUrl] = useState('https://www.youtube.com/watch?v=JzTNs0gY_ZU');
+  const [urlInput, setUrlInput] = useState('');
   const hideTimer = useRef(null);
+
+  const handleLoadUrl = (e) => {
+    if (e) e.preventDefault();
+    if (urlInput.trim()) {
+      setVideoUrl(urlInput.trim());
+      setPlaying(true);
+    }
+  };
 
   /* ── Auto-hide controls after 3 s of inactivity ── */
   const resetHideTimer = useCallback(() => {
@@ -132,6 +142,33 @@ export default function Video() {
         <div className="ring r3" />
       </div>
 
+      {/* ── URL input bar ── */}
+      {!isFS && (
+        <form onSubmit={handleLoadUrl} className="vp-url-bar">
+          <div className="vp-url-input-wrap">
+            <div className="vp-url-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+            </div>
+            <input
+              className="vp-url-input"
+              type="text"
+              placeholder="Paste video URL (YouTube, Vimeo, MP4...)"
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="vp-url-btn" title="Load and play video">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <span>Play</span>
+          </button>
+        </form>
+      )}
+
       {/* ── Player card ── */}
       <div className="vp-card">
 
@@ -139,7 +176,7 @@ export default function Video() {
         <div className="vp-screen" onClick={togglePlay}>
           <ReactPlayer
             ref={playerRef}
-            src="https://www.youtube.com/watch?v=JzTNs0gY_ZU"
+            src={videoUrl}
             playing={playing}
             muted={muted}
             volume={volume}
